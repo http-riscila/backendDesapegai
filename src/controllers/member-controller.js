@@ -150,13 +150,12 @@ async function deleteMember(req, res) {
 }
 
 async function getMemberByCommunityAndUser(req, res) {
-  const { userId } = req.params;
+  const  { id: userId }  = req.params;
   const { communityId } = req.query;
   try {
     const member = await prisma.communityMember.findFirst({
       where: {
-        communityId,
-        userId,
+         userId : userId, communityId: communityId
       },
     });
     console.log('Member by community and user:', member);

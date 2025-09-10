@@ -31,8 +31,8 @@ async function main() {
 
   console.log('Limpando dados de itens existentes...');
   await prisma.communityMember.deleteMany({});
-  await prisma.community.deleteMany({});
   await prisma.item.deleteMany({});
+  await prisma.community.deleteMany({});
   await prisma.user.deleteMany({});
 
   const usersToCreate = [

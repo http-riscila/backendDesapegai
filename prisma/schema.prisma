@@ -8,58 +8,59 @@ datasource db {
 }
 
 model User {
-  id               String            @id @default(uuid())
-  name             String
-  email            String            @unique
-  password         String
-  bio              String?
-  profileImageUrl  String?
-  createdAt        DateTime          @default(now())
+  id              String   @id @default(uuid())
+  name            String
+  email           String   @unique
+  password        String
+  bio             String?
+  profileImageUrl String?
+  createdAt       DateTime @default(now())
 
-  communityMember  CommunityMember[]
-  createdCommunities Community[]     @relation("CreatedBy")
-  createdItems          Item[]            @relation("CreatedBy")
-  receivedProposal Proposal[]        @relation("ProposalRecipient")
-  sentProposal     Proposal[]        @relation("ProposalSender")
+  communityMember    CommunityMember[]
+  createdCommunities Community[]       @relation("CreatedBy")
+  createdItems       Item[]            @relation("CreatedBy")
+  receivedProposal   Proposal[]        @relation("ProposalRecipient")
+  sentProposal       Proposal[]        @relation("ProposalSender")
 }
 
 model Community {
-  id            String    @id @default(uuid())
-  name          String
-  description   String?
-  createdBy     String
-  imageUrl      String?
-  createdAt     DateTime  @default(now())
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  createdBy   String
+  imageUrl    String?
+  createdAt   DateTime @default(now())
 
-  creator       User      @relation("CreatedBy", fields: [createdBy], references: [id])
+  creator User @relation("CreatedBy", fields: [createdBy], references: [id])
 
-  members       CommunityMember[]
-  items         Item[]
-  proposals     Proposal[]
+  members   CommunityMember[]
+  items     Item[]
+  proposals Proposal[]
 }
 
 model CommunityMember {
-  id            String    @id @default(uuid())
-  userId        String   
-  communityId   String
-  isAdmin       Boolean   @default(false)
+  id          String  @id @default(uuid())
+  userId      String
+  communityId String
+  isAdmin     Boolean @default(false)
 
-  community     Community @relation(fields: [communityId], references: [id])
-  user          User      @relation(fields: [userId], references: [id])
+  community Community @relation(fields: [communityId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
 }
 
 model Item {
-  id            String    @id @default(uuid())
-  name          String
-  description   String?
-  category      ItemCategory
-  status        ItemStatus
-  communityId   String
-  createdBy     String
-  imageUrl      String?
+  id          String       @id @default(uuid())
+  name        String
+  description String?
+  category    ItemCategory
+  status      ItemStatus
+  communityId String
+  createdBy   String
+  imageUrl    String?
+  createdAt   DateTime     @default(now())
 
-  community     Community @relation(fields: [communityId], references: [id])
-  creator       User      @relation("CreatedBy", fields: [createdBy], references: [id])
+  community Community @relation(fields: [communityId], references: [id])
+  creator   User      @relation("CreatedBy", fields: [createdBy], references: [id])
 
   desiredProposals Proposal[] @relation("DesiredItem")
   OfferedProposals Proposal[] @relation("OfferedItem")
@@ -75,11 +76,11 @@ model Proposal {
   recipientId   String
   communityId   String
 
-  community     Community      @relation(fields: [communityId], references: [id])
-  desiredItem   Item           @relation("DesiredItem", fields: [desiredItemId], references: [id])
-  offeredItem   Item           @relation("OfferedItem", fields: [offeredItemId], references: [id])
-  recipient     User           @relation("ProposalRecipient", fields: [recipientId], references: [id])
-  sender        User           @relation("ProposalSender", fields: [senderId], references: [id])
+  community   Community @relation(fields: [communityId], references: [id])
+  desiredItem Item      @relation("DesiredItem", fields: [desiredItemId], references: [id])
+  offeredItem Item      @relation("OfferedItem", fields: [offeredItemId], references: [id])
+  recipient   User      @relation("ProposalRecipient", fields: [recipientId], references: [id])
+  sender      User      @relation("ProposalSender", fields: [senderId], references: [id])
 }
 
 enum ProposalStatus {

@@ -43,7 +43,6 @@ membersRouter.get(
 membersRouter.get(
   '/members/:id/by-community-and-user',
   authenticateUser,
-  authorizeCommunityMember,
   getMemberByCommunityAndUser
 );
 

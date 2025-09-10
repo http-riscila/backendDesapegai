@@ -37,9 +37,30 @@ async function getByUser(userId) {
 }
 
 async function getByCommunity(communityId) {
-  return await prisma.item.findMany({
-    where: { communityId },
-  });
+    return prisma.item.findMany({
+        where: {communityId},
+        select: {
+            creator: {
+                select: {
+                    name: true,
+                }
+            },
+            id: true,
+            category: true,
+            name: true,
+            description: true,
+            imageUrl: true,
+            status: true,
+            createdAt: true,
+            community: {
+                select: {
+                    name: true,
+                    id: true,
+
+                }
+            }
+        }
+    });
 }
 
 async function countByStatus(userId) {

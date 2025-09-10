@@ -33,10 +33,12 @@ itemsRouter.post(
   handleValidationErrors,
   createItem
 );
+
+// Removida rota duplicada de getAllItems
+// Removida verificação se é membro da comunidade para listar itens da página inicial
 itemsRouter.get(
   "/items",
   authenticateUser,
-  authorizeCommunityMember,
   getAllItems
 );
 itemsRouter.get(
@@ -45,24 +47,23 @@ itemsRouter.get(
   authorizeCommunityMember,
   getItemById
 );
-itemsRouter.get(
-  "/items",
-  authenticateUser,
-  authorizeCommunityMember,
-  getItemsByCategory
-);
+
+
 itemsRouter.get(
   "/items/by-community/:communityId",
   authenticateUser,
   getItemByCommunity
 );
+
 itemsRouter.get("/items/by-user/:userId", authenticateUser, getItemsByUser);
+
 itemsRouter.get(
   "/items/count/available/:userId",
   authenticateUser,
   authorizeCommunityMember,
   countItemsByStatus
 );
+
 itemsRouter.put(
   "/items/:id",
   authenticateUser,
