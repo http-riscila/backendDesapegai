@@ -36,18 +36,13 @@ itemsRouter.post(
 
 // Removida rota duplicada de getAllItems
 // Removida verificação se é membro da comunidade para listar itens da página inicial
-itemsRouter.get(
-  "/items",
-  authenticateUser,
-  getAllItems
-);
+itemsRouter.get("/items", authenticateUser, getAllItems);
 itemsRouter.get(
   "/items/:id",
   authenticateUser,
   authorizeCommunityMember,
   getItemById
 );
-
 
 itemsRouter.get(
   "/items/by-community/:communityId",
@@ -60,7 +55,6 @@ itemsRouter.get("/items/by-user/:userId", authenticateUser, getItemsByUser);
 itemsRouter.get(
   "/items/count/available/:userId",
   authenticateUser,
-  authorizeCommunityMember,
   countItemsByStatus
 );
 

@@ -55,7 +55,6 @@ proposalsRouter.get(
 proposalsRouter.get(
   "/proposals/count/accepted/:userId",
   authenticateUser,
-  authorizeCommunityMember,
   countProposalsByUser
 );
 proposalsRouter.put(

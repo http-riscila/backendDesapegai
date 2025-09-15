@@ -82,7 +82,8 @@ async function countProposalsByUser(req, res) {
     const { id } = req.params;
 
     const acceptedProposals = await countByUser(id);
-    return res.status(200).json(acceptedProposals);
+    const count = acceptedProposals ?? 0;
+    return res.status(200).json(count);
   } catch (error) {
     return res.status(500).json({
       message: "Error counting accepted proposals by user",
