@@ -1,4 +1,4 @@
-import cloudinary from '../config/cloudinary.js';
+import cloudinary from "../config/cloudinary.js";
 import {
   countByStatus,
   create,
@@ -10,7 +10,7 @@ import {
   partiallyUpdate,
   remove,
   update,
-} from '../services/item-services.js';
+} from "../services/item-services.js";
 
 async function createItem(req, res) {
   try {
@@ -21,7 +21,7 @@ async function createItem(req, res) {
     if (req.file) {
       const result = await new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
-          { folder: 'items' },
+          { folder: "items" },
           (error, result) => {
             if (error) {
               reject(error);
@@ -40,7 +40,7 @@ async function createItem(req, res) {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: 'Error creating a new item', details: error.message });
+      .json({ message: "Error creating a new item", details: error.message });
   }
 }
 
@@ -51,7 +51,7 @@ async function getAllItems(req, res) {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: 'Error getting items', details: error.message });
+      .json({ message: "Error getting items", details: error.message });
   }
 }
 
@@ -64,10 +64,10 @@ async function getItemById(req, res) {
     if (item) {
       return res.status(200).json(item);
     }
-    return res.status(404).json({ message: 'Item not found' });
+    return res.status(404).json({ message: "Item not found" });
   } catch (error) {
     return res.status(500).json({
-      message: 'Error getting item by ID',
+      message: "Error getting item by ID",
       details: error.message,
     });
   }
@@ -82,10 +82,10 @@ async function getItemByCommunity(req, res) {
     if (itemsByCommunity.length > 0) {
       return res.status(200).json(itemsByCommunity);
     }
-    return res.status(404).json({ message: 'Items not found' });
+    return res.status(404).json({ message: "Items not found" });
   } catch (error) {
     return res.status(500).json({
-      message: 'Error getting item by community',
+      message: "Error getting item by community",
       details: error.message,
     });
   }
@@ -101,10 +101,10 @@ async function getItemsByCategory(req, res) {
     }
     return res
       .status(404)
-      .json({ message: 'No items found for this category' });
+      .json({ message: "No items found for this category" });
   } catch (error) {
     return res.status(500).json({
-      message: 'Error getting items by category',
+      message: "Error getting items by category",
       details: error.message,
     });
   }
@@ -117,11 +117,11 @@ async function getItemsByUser(req, res) {
     if (items.length > 0) {
       return res.status(200).json(items);
     }
-    return res.status(404).json({ message: 'No items found for this user' });
+    return res.status(404).json({ message: "No items found for this user" });
   } catch (error) {
     return res
       .status(500)
-      .json({ message: 'Error getting items by user', details: error.message });
+      .json({ message: "Error getting items by user", details: error.message });
   }
 }
 
@@ -129,10 +129,11 @@ async function countItemsByStatus(req, res) {
   try {
     const { userId } = req.params;
     const availableItems = await countByStatus(userId);
-    return res.status(200).json(availableItems);
+    const count = availableItems ?? 0;
+    return res.status(200).json(count);
   } catch (error) {
     return res.status(500).json({
-      message: 'Error counting items by status',
+      message: "Error counting items by status",
       details: error.message,
     });
   }
@@ -147,13 +148,13 @@ async function updateItem(req, res) {
     const existentItem = await getById(id);
 
     if (!existentItem) {
-      return res.status(404).json({ message: 'Item not found' });
+      return res.status(404).json({ message: "Item not found" });
     }
 
     if (req.file) {
       const result = await new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
-          { folder: 'items' },
+          { folder: "items" },
           (error, result) => {
             if (error) {
               return reject(error);
@@ -171,7 +172,7 @@ async function updateItem(req, res) {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: 'Error updating item', details: error.message });
+      .json({ message: "Error updating item", details: error.message });
   }
 }
 
@@ -184,13 +185,13 @@ async function partiallyUpdateItem(req, res) {
     const existentItem = await getById(id);
 
     if (!existentItem) {
-      return res.status(404).json({ message: 'Item not found' });
+      return res.status(404).json({ message: "Item not found" });
     }
 
     if (req.file) {
       const result = await new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
-          { folder: 'items' },
+          { folder: "items" },
           (error, result) => {
             if (error) {
               return reject(error);
@@ -207,7 +208,7 @@ async function partiallyUpdateItem(req, res) {
     return res.status(200).json(partiallyUpdatedItem);
   } catch (error) {
     return res.status(500).json({
-      message: 'Error partially updating item',
+      message: "Error partially updating item",
       details: error.message,
     });
   }
@@ -223,11 +224,11 @@ async function deleteItem(req, res) {
       const removedItem = await remove(id);
       return res.status(204).send(removedItem);
     }
-    return res.status(404).json({ message: 'Item not found' });
+    return res.status(404).json({ message: "Item not found" });
   } catch (error) {
     return res
       .status(500)
-      .json({ message: 'Error removing item', details: error.message });
+      .json({ message: "Error removing item", details: error.message });
   }
 }
 
