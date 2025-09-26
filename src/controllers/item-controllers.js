@@ -114,10 +114,7 @@ async function getItemsByUser(req, res) {
   try {
     const { userId } = req.params;
     const items = await getByUser(userId);
-    if (items.length > 0) {
-      return res.status(200).json(items);
-    }
-    return res.status(404).json({ message: "No items found for this user" });
+    return res.status(200).json(items || []);
   } catch (error) {
     return res
       .status(500)

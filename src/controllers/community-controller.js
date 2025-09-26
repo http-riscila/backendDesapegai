@@ -116,12 +116,7 @@ async function getCommunityByUser(req, res) {
   const { userId } = req.params;
   try {
     const communities = await getByUser(userId);
-    if (!communities || communities.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "User is not a member of any community" });
-    }
-    return res.status(200).json(communities);
+    return res.status(200).json(communities || []);
   } catch (error) {
     return res.status(500).json({
       message: "Error getting communities by user",
